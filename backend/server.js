@@ -5,8 +5,9 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+const authRoutes = require('./routes/authRoutes'); //import auth routes
+
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 //Global Security & Utility Middleware
 app.use(helmet());
@@ -21,7 +22,15 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+//link auth routes to url path
+app.use('/api/auth', authRoutes);
+
+app.get('/', (req, res) =>{
+    res.send('MindDrop API is running smoothly!');
+});
+
 //mongodb connection
+const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB successfully.'))
     .catch((err) => {
