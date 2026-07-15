@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes'); //import auth routes
+const entryRoutes = require('./routes/entryRoutes'); //import entry routes
 
 const app = express();
 
@@ -22,8 +23,9 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-//link auth routes to url path
+//link auth routes and entry routes to url path
 app.use('/api/auth', authRoutes);
+app.use('/api/entries', entryRoutes);
 
 app.get('/', (req, res) =>{
     res.send('MindDrop API is running smoothly!');
